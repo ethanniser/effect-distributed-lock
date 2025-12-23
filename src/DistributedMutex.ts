@@ -4,7 +4,7 @@ import {
   BackingError,
   LockLostError,
   NotYetAcquiredError,
-} from "./Errors.ts";
+} from "./Errors.js";
 
 // =============================================================================
 // Backing Service

@@ -1,11 +1,14 @@
 {
   "name": "effect-distributed-lock",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "A distributed mutex library for Effect with pluggable backends",
-  "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit"
+  },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./dist/index.js"
   },
   "devDependencies": {
     "@types/bun": "latest",

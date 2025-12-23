@@ -37,15 +37,14 @@
  */
 
 // Core module (namespace with types and functions)
-export * as DistributedMutex from "./DistributedMutex.ts";
-
+export * as DistributedMutex from "./DistributedMutex.js";
 // Errors
 export {
   AcquireTimeoutError,
   BackingError,
   DistributedMutexError,
   LockLostError,
-} from "./Errors.ts";
+} from "./Errors.js";
 
 // Redis backing
-export * as RedisBacking from "./RedisBacking.ts";
+export * as RedisBacking from "./RedisBacking.js";

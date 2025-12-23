@@ -1,7 +1,7 @@
 import { Effect, Layer, Option } from "effect";
 import type { Redis } from "ioredis";
-import { DistributedMutexBacking } from "./DistributedMutex.ts";
-import { BackingError } from "./Errors.ts";
+import { DistributedMutexBacking } from "./DistributedMutex.js";
+import { BackingError } from "./Errors.js";
 
 /**
  * Lua script for atomic lock acquisition.
