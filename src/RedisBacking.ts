@@ -325,9 +325,9 @@ export const layer = (
           return { subscriber, messageHandler };
         }),
         ({ subscriber, messageHandler }) =>
-          Effect.sync(() => {
+          Effect.promise(async () => {
             subscriber.off("message", messageHandler);
-            subscriber.unsubscribe(channel);
+            await subscriber.unsubscribe(channel);
             subscriber.disconnect();
           })
       );

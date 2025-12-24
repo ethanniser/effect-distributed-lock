@@ -445,6 +445,7 @@ export const make = (
             })
           : Effect.never;
 
+        // first to succeed (acquire permits) wins
         return yield* Effect.race(pollBasedAcquire, pushBasedAcquire);
       });
 
