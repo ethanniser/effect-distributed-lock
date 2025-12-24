@@ -406,7 +406,7 @@ export const make = (
           return maybeAcquired.value;
         }).pipe(
           Effect.retry({
-            while: (e) => e._tag === "LockNotAcquiredError",
+            while: (e) => e._tag === "LockNotAcquiredError" && !resolvedOptions.acquiredExternally,
             schedule: acquireRetryPolicy,
           })
         );
