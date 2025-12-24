@@ -8,7 +8,7 @@
  * You'll see how push-based acquisition is faster because waiters are
  * notified immediately when permits are released, rather than polling.
  *
- * Run with: bun run examples/concurrent.ts
+ * Run with: bun run examples/push.ts
  * Requires REDIS_URL environment variable or local Redis at localhost:6379.
  */
 import { Console, Duration, Effect, Schedule } from "effect";
