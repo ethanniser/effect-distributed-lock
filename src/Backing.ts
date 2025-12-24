@@ -74,8 +74,7 @@ export interface DistributedSemaphoreBacking {
   /**
    * Optional: Stream of notifications when permits MAY be available.
    *
-   * If provided, the semaphore layer uses this for efficient waiting instead
-   * of polling. The stream emits a signal whenever permits are released.
+   * If provided, the semaphore layer uses this in addition to polling. The stream emits a signal whenever permits are released.
    *
    * Notes:
    * - Multiple waiters may race for permits after a notification
