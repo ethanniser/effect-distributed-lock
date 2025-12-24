@@ -153,7 +153,11 @@ export interface DistributedSemaphore {
     options?: AcquireOptions
   ) => <A, E, R>(
     effect: Effect.Effect<A, E, R>
-  ) => Effect.Effect<A, E | LockLostError | SemaphoreBackingError | LockNotAcquiredError, R>;
+  ) => Effect.Effect<
+    A,
+    E | LockLostError | SemaphoreBackingError | LockNotAcquiredError,
+    R
+  >;
 
   /**
    * Run an effect only if the specified permits are immediately available.
@@ -412,30 +416,31 @@ export const make = (
         }
 
         // Push-based acquire: run both poll-based and push-based acquire in parallel, and return the first one to complete
-        const pushBasedAcquire = backing.onPermitsReleased
-          ? Effect.gen(function* () {
-              if (!backing.onPermitsReleased) {
-                // SAFETY: We know that onPermitsReleased is provided because we checked it above
-                return yield* Effect.dieMessage(
-                  "Invariant violated: `onPermitsReleased` is not provided"
-                );
-              }
-              return yield* backing.onPermitsReleased(key).pipe(
-                Stream.runFoldWhileEffect(
-                  Option.none<
-                    Fiber.Fiber<never, LockLostError | SemaphoreBackingError>
-                  >(),
-                  Option.isNone, // keep folding while we haven't acquired
-                  () =>
-                    tryTake(permits, resolvedOptions).pipe(
-                      acquireSemaphore.withPermitsIfAvailable(1),
-                      Effect.map(Option.flatten)
-                    )
-                ),
-                Effect.map(Option.getOrThrow)
-              );
-            })
-          : Effect.never;
+        const pushBasedAcquire = Effect.gen(function* () {
+          if (!backing.onPermitsReleased) {
+            // SAFETY: We know that onPermitsReleased is provided because we checked it above
+            return yield* Effect.dieMessage(
+              "Invariant violated: `onPermitsReleased` is not provided when it was expected"
+            );
+          }
+          return yield* backing.onPermitsReleased(key).pipe(
+            Stream.runFoldWhileEffect(
+              Option.none<
+                Fiber.Fiber<never, LockLostError | SemaphoreBackingError>
+              >(),
+              Option.isNone, // keep folding while we haven't acquired
+              () =>
+                tryTake(permits, resolvedOptions).pipe(
+                  acquireSemaphore.withPermitsIfAvailable(1),
+                  Effect.map(Option.flatten)
+                )
+            ),
+            Effect.flatMap(Option.match({
+              onSome: Effect.succeed,
+              onNone: () => Effect.dieMessage("Invariant violated: the stream should never return `None`")
+            }))
+          );
+        });
 
         // first to succeed (acquire permits) wins
         return yield* Effect.race(pollBasedAcquire, pushBasedAcquire);
@@ -446,7 +451,11 @@ export const make = (
       (permits: number, options?: AcquireOptions) =>
       <A, E, R>(
         effect: Effect.Effect<A, E, R>
-      ): Effect.Effect<A, E | LockLostError | SemaphoreBackingError | LockNotAcquiredError, R> =>
+      ): Effect.Effect<
+        A,
+        E | LockLostError | SemaphoreBackingError | LockNotAcquiredError,
+        R
+      > =>
         Effect.scoped(
           Effect.gen(function* () {
             const keepAliveFiber = yield* take(permits, options);
