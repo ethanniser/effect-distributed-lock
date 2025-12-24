@@ -1,6 +1,6 @@
 {
   "name": "effect-distributed-lock",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A distributed semaphore library for Effect with pluggable backends",
   "license": "MIT",
   "repository": {

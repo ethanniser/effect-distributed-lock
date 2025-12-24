@@ -57,9 +57,7 @@ const runScenario = (name: string, pushEnabled: boolean) =>
     const mutex = yield* DistributedSemaphore.make(
       `concurrent-example-${pushEnabled ? "push" : "poll"}`,
       {
-        acquireRetryPolicy: Schedule.spaced(Duration.millis(500)).pipe(
-          Schedule.asVoid
-        ),
+        acquireRetryPolicy: Schedule.spaced(Duration.millis(500)),
         limit: 1, // Mutex - only one holder at a time
       }
     );

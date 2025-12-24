@@ -177,7 +177,7 @@ export interface RedisBackingOptions {
    * How often to retry the stream of notifications when permits are released.
    * @default Schedule.forever
    */
-  readonly pushStreamRetrySchedule?: Schedule.Schedule<void>;
+  readonly pushStreamRetrySchedule?: Schedule.Schedule<unknown>;
 }
 
 /**
@@ -198,7 +198,7 @@ export const layer = (
   const keyPrefix = options.keyPrefix ?? "semaphore:";
   const pushBasedAcquireEnabled = options.pushBasedAcquireEnabled ?? true;
   const pushStreamRetrySchedule =
-    options.pushStreamRetrySchedule ?? Schedule.forever.pipe(Schedule.asVoid);
+    options.pushStreamRetrySchedule ?? Schedule.forever;
   const prefixKey = (key: string) => `${keyPrefix}${key}`;
   const releaseChannel = (key: string) => `${keyPrefix}${key}:released`;
 

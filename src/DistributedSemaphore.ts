@@ -44,7 +44,7 @@ export interface DistributedSemaphoreConfig {
    * How often to poll when waiting to acquire permits.
    * @default Schedule.spaced(Duration.millis(100))
    */
-  readonly acquireRetryPolicy?: Schedule.Schedule<void>;
+  readonly acquireRetryPolicy?: Schedule.Schedule<unknown>;
 
   /**
    * Retry policy when a backing failure occurs.
@@ -54,15 +54,13 @@ export interface DistributedSemaphoreConfig {
    * - Releasing permits
    * @default Schedule.recurs(3)
    */
-  readonly backingFailureRetryPolicy?: Schedule.Schedule<void>;
+  readonly backingFailureRetryPolicy?: Schedule.Schedule<unknown>;
 }
 
 const DEFAULT_LIMIT = 1;
 const DEFAULT_TTL = Duration.seconds(30);
-const DEFAULT_ACQUIRE_RETRY_POLICY = Schedule.spaced(Duration.millis(100)).pipe(
-  Schedule.asVoid
-);
-const DEFAULT_FAILURE_RETRY_POLICY = Schedule.recurs(3).pipe(Schedule.asVoid);
+const DEFAULT_ACQUIRE_RETRY_POLICY = Schedule.spaced(Duration.millis(100));
+const DEFAULT_FAILURE_RETRY_POLICY = Schedule.recurs(3);
 
 // =============================================================================
 // Acquire Options
@@ -222,8 +220,8 @@ type FullyResolvedConfig = {
   limit: number;
   ttl: Duration.Duration;
   refreshInterval: Duration.Duration;
-  acquireRetryPolicy: Schedule.Schedule<void>;
-  backingFailureRetryPolicy: Schedule.Schedule<void>;
+  acquireRetryPolicy: Schedule.Schedule<unknown>;
+  backingFailureRetryPolicy: Schedule.Schedule<unknown>;
 };
 
 function fullyResolveConfig(
