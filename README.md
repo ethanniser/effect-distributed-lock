@@ -32,7 +32,8 @@ npm install ioredis
 ```typescript
 import { Effect, Schedule } from "effect";
 import Redis from "ioredis";
-import { DistributedSemaphore, RedisBacking } from "effect-distributed-lock";
+import { DistributedSemaphore } from "effect-distributed-lock";
+import { RedisBacking } from "effect-distributed-lock/redis";
 
 const redis = new Redis(process.env.REDIS_URL);
 const RedisLayer = RedisBacking.layer(redis, { keyPrefix: "my-app:" });
@@ -217,7 +218,7 @@ The provided Redis backing is designed for **single-instance Redis only**. It do
 
 ```typescript
 import Redis from "ioredis";
-import { RedisBacking } from "effect-distributed-lock";
+import { RedisBacking } from "effect-distributed-lock/redis";
 
 // Single Redis instance
 const redis = new Redis("redis://localhost:6379");

@@ -9,7 +9,8 @@
  *
  * @example
  * ```ts
- * import { DistributedSemaphore, RedisBacking } from "effect-distributed-lock";
+ * import { DistributedSemaphore } from "effect-distributed-lock";
+ * import { RedisBacking } from "effect-distributed-lock/redis";
  * import { Effect } from "effect";
  * import Redis from "ioredis";
  *
@@ -56,6 +57,3 @@ export * as DistributedSemaphore from "./DistributedSemaphore.js";
 
 // Errors
 export { LockLostError } from "./Errors.js";
-
-// Redis backing
-export * as RedisBacking from "./RedisBacking.js";

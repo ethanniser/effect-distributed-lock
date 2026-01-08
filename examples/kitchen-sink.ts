@@ -6,7 +6,8 @@
  */
 import { Effect, Console, Duration, Option } from "effect";
 import Redis from "ioredis";
-import { DistributedSemaphore, RedisBacking } from "../src/index.ts";
+import { DistributedSemaphore } from "../src/index.ts";
+import { RedisBacking } from "../src/redis.ts";
 
 // Create Redis client
 const redis = new Redis(process.env.REDIS_URL ?? "redis://localhost:6379");

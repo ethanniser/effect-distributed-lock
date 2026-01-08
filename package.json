@@ -20,7 +20,14 @@
     "release": "bun run build && changeset publish"
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./redis": "./dist/redis.js"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.js",
+      "./redis": "./dist/redis.js"
+    }
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
