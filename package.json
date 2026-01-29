@@ -32,6 +32,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
     "@types/bun": "latest",
+    "effect": "^3.19.13",
     "ioredis": "^5.4.1"
   },
   "peerDependencies": {
@@ -43,8 +44,5 @@
     "ioredis": {
       "optional": true
     }
-  },
-  "dependencies": {
-    "effect": "^3.19.13"
   }
 }
