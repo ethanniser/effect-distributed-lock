@@ -349,16 +349,15 @@ export const make = (
           return Option.none();
         }
 
-        // Start keepalive fiber, tied to this scope
-        const keepAliveFiber = yield* Effect.forkScoped(
-          keepAlive(identifier, permits)
-        );
-
-        // Add finalizer to release permits when scope closes
         yield* Effect.addFinalizer(() =>
           backing
             .release(key, identifier, permits)
             .pipe(withBackingErrorRetry, Effect.ignore)
+        );
+
+        // Start keepalive fiber after registering release so it is stopped before release.
+        const keepAliveFiber = yield* Effect.forkScoped(
+          keepAlive(identifier, permits)
         );
 
         return Option.some(keepAliveFiber);

@@ -15,6 +15,7 @@
   "scripts": {
     "build": "tsc",
     "check": "tsc --noEmit",
+    "test": "bun test test",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "bun run build && changeset publish"
